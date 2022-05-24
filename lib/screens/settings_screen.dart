@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:preferences_app/providers/theme_provider.dart';
+import 'package:preferences_app/share_preferences/preferences.dart';
 import 'package:preferences_app/widgets/widgets.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
 
@@ -14,9 +19,9 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
 
 
-  bool darkmode = false;
-  int gender = 1;
-  String name = 'Pedro';
+  //bool darkmode = Preferences.darkmode;
+  //int gender = Preferences.gender;
+  //String name = Preferences.name;
 
 
   @override
@@ -36,11 +41,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const Divider(),
               
               SwitchListTile.adaptive(
-                value: darkmode,
+                value: Preferences.darkmode,
                 title: const Text('Darkmode'),
                  onChanged: (value){
-                   darkmode = value;
+                   Preferences.darkmode = value;
+                  final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
 
+                  value ? themeProvider.setDarkMode() : themeProvider.setLightMode();
                    setState(() {
                      
                    });
@@ -49,10 +56,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                 RadioListTile<int>(
                   value: 1, 
-                  groupValue: gender, 
-                  title: Text('Masculino'),
+                  groupValue: Preferences.gender, 
+                  title: const Text('Masculino'),
                   onChanged: (value){
-                    gender = value ?? 1;
+                    Preferences.gender = value ?? 1;
 
                    setState(() {
                   });
@@ -61,10 +68,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                    RadioListTile<int>(
                   value: 2, 
-                  groupValue: gender, 
-                  title: Text('Femenino'),
+                  groupValue: Preferences.gender, 
+                  title: const Text('Femenino'),
                   onChanged: (value){
-                    gender = value ?? 2;
+                    Preferences.gender = value ?? 2;
 
                    setState(() {
                   });
@@ -78,7 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       initialValue: 'Felipe',
                       onChanged: (value){
 
-                        name = value;
+                        Preferences.name = value;
 
                         setState(() {
                           
